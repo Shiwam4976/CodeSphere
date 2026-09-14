@@ -2,28 +2,30 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 75vh;
-  background-color: #f5f5f5;
+  min-height: 75vh;
+  background: var(--bg);
+  padding: 20px;
 
   .success-message {
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    background: var(--card-bg);
+    padding: 40px 32px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
     text-align: center;
-    width: 300px;
+    width: 340px;
+    border-top: 4px solid var(--primary);
   }
 
   h2 {
     font-size: 24px;
-    color: #8a4baf;
-    margin-bottom: 15px;
+    color: var(--text-dark);
+    margin-bottom: 12px;
   }
 
   p {
-    font-size: 16px;
-    color: #8a4baf;
-    margin-bottom: 20px;
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 18px;
   }
 
   a {

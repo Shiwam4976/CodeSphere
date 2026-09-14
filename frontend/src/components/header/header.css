@@ -2,36 +2,84 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
-  background-color: #fff;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  position: relative;
+  padding: 18px 40px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 
   .logo {
-    font-size: 25px;
-    font-weight: 600;
-    color: #8a4baf;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 22px;
+    font-weight: 800;
+    text-decoration: none;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+
+    .logo-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: var(--gradient);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      -webkit-text-fill-color: white;
+    }
 
     @media (max-width: 768px) {
       font-size: 18px;
+
+      .logo-icon {
+        width: 28px;
+        height: 28px;
+        font-size: 15px;
+      }
     }
   }
 
   .link {
     display: flex;
-    gap: 2rem;
+    align-items: center;
+    gap: 2.2rem;
 
     @media (max-width: 768px) {
-      gap: 0.5rem;
+      gap: 1rem;
     }
 
     a {
       text-decoration: none;
-      color: #333;
-      transition: 0.3s;
+      color: var(--text-dark);
+      font-weight: 500;
+      font-size: 15px;
+      position: relative;
+      transition: color 0.25s;
+
+      &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -4px;
+        width: 0;
+        height: 2px;
+        background: var(--gradient);
+        transition: width 0.25s ease;
+      }
 
       &:hover {
-        color: #8a4baf;
+        color: var(--primary);
+      }
+
+      &:hover::after {
+        width: 100%;
       }
     }
   }

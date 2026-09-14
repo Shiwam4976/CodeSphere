@@ -6,6 +6,7 @@ import { server } from "../../main";
 import Loading from "../../components/loading/Loading";
 import toast from "react-hot-toast";
 import { TiTick } from "react-icons/ti";
+import { MdOutlineFileDownload } from "react-icons/md";
 
 const Lecture = ({ user }) => {
   const [lectures, setLectures] = useState([]);
@@ -20,6 +21,10 @@ const Lecture = ({ user }) => {
   const [video, setvideo] = useState("");
   const [videoPrev, setVideoPrev] = useState("");
   const [btnLoading, setBtnLoading] = useState(false);
+  const [showNotesForm, setShowNotesForm] = useState(false);
+  const [notesFile, setNotesFile] = useState("");
+  const [notesFileName, setNotesFileName] = useState("");
+  const [notesBtnLoading, setNotesBtnLoading] = useState(false);
 
   if (user && user.role !== "admin" && !user.subscription.includes(params.id))
     return navigate("/");
@@ -41,6 +46,7 @@ const Lecture = ({ user }) => {
 
   async function fetchLecture(id) {
     setLecLoading(true);
+    setShowNotesForm(false);
     try {
       const { data } = await axios.get(`${server}/api/lecture/${id}`, {
         headers: {
@@ -98,6 +104,47 @@ const Lecture = ({ user }) => {
     } catch (error) {
       toast.error(error.response.data.message);
       setBtnLoading(false);
+    }
+  };
+
+  const changeNotesHandler = (e) => {
+    const file = e.target.files[0];
+    setNotesFile(file);
+    setNotesFileName(file ? file.name : "");
+  };
+
+  const notesSubmitHandler = async (e) => {
+    e.preventDefault();
+
+    if (!lecture._id) {
+      toast.error("Select a lecture first");
+      return;
+    }
+
+    setNotesBtnLoading(true);
+    const myForm = new FormData();
+    myForm.append("file", notesFile);
+
+    try {
+      const { data } = await axios.post(
+        `${server}/api/lecture/${lecture._id}/notes`,
+        myForm,
+        {
+          headers: {
+            token: localStorage.getItem("token"),
+          },
+        }
+      );
+
+      toast.success(data.message);
+      setNotesBtnLoading(false);
+      setShowNotesForm(false);
+      setNotesFile("");
+      setNotesFileName("");
+      fetchLecture(lecture._id);
+    } catch (error) {
+      toast.error(error.response.data.message);
+      setNotesBtnLoading(false);
     }
   };
 
@@ -197,6 +244,55 @@ const Lecture = ({ user }) => {
                       ></video>
                       <h1>{lecture.title}</h1>
                       <h3>{lecture.description}</h3>
+
+                      {lecture.notes && (
+                        
+                          <a href={`${server}/${lecture.notes}`}
+                          download
+                          target="_blank"
+                          rel="noreferrer"
+                          className="common-btn notes-download-btn"
+                        >
+                          <MdOutlineFileDownload /> Download Notes
+                        </a>
+                      )}
+
+                      {user && user.role === "admin" && (
+                        <button
+                          className="common-btn"
+                          onClick={() => setShowNotesForm(!showNotesForm)}
+                        >
+                          {showNotesForm
+                            ? "Close"
+                            : lecture.notes
+                            ? "Update Notes"
+                            : "Add Notes +"}
+                        </button>
+                      )}
+
+                      {showNotesForm && (
+                        <div className="notes-form">
+                          <h2>{lecture.notes ? "Update Notes" : "Add Notes"}</h2>
+                          <form onSubmit={notesSubmitHandler}>
+                            <input
+                              type="file"
+                              accept=".pdf,.doc,.docx,.ppt,.pptx,.txt"
+                              onChange={changeNotesHandler}
+                              required
+                            />
+
+                            {notesFileName && <p>{notesFileName}</p>}
+
+                            <button
+                              disabled={notesBtnLoading}
+                              type="submit"
+                              className="common-btn"
+                            >
+                              {notesBtnLoading ? "Please Wait..." : "Upload"}
+                            </button>
+                          </form>
+                        </div>
+                      )}
                     </>
                   ) : (
                     <h1>Please Select a Lecture</h1>

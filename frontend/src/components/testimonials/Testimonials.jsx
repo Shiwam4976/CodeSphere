@@ -5,44 +5,53 @@ const Testimonials = () => {
   const testimonialsData = [
     {
       id: 1,
-      name: "John Doe",
+      name: "Shiwam Kumar Pathak",
       position: "Student",
       message:
         "This platform helped me learn so effectively. The courses are amazing and the instructors are top-notch.",
       image:
-        "https://th.bing.com/th?q=Current+Bachelor&w=120&h=120&c=1&rs=1&qlt=90&cb=1&dpr=1.3&pid=InlineBlock&mkt=en-IN&cc=IN&setlang=en&adlt=moderate&t=1&mw=247",
+        "/testimonials/shivam.webp",
     },
     {
       id: 2,
-      name: "Jane Smith",
+      name: "Ujjwal Kumar",
       position: "Student",
       message:
         "I've learned more here than in any other place. The interactive lessons and quizzes make learning enjoyable.",
       image:
-        "https://th.bing.com/th/id/OIP.GKAiW3oc2TWXVEeZAzrWOAHaJF?w=135&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",
+        "/testimonials/ujjwal.png",
     },
     {
       id: 3,
-      name: "John Doe",
+      name: "Satyam Nandan",
       position: "Student",
       message:
         "This platform helped me learn so effectively. The courses are amazing and the instructors are top-notch.",
       image:
-        "https://th.bing.com/th?q=Current+Bachelor&w=120&h=120&c=1&rs=1&qlt=90&cb=1&dpr=1.3&pid=InlineBlock&mkt=en-IN&cc=IN&setlang=en&adlt=moderate&t=1&mw=247",
+        "/testimonials/satyam.jpeg",
     },
     {
       id: 4,
-      name: "Jane Smith",
+      name: "Sahil Ray",
       position: "Student",
       message:
-        "I've learned more here than in any other place. The interactive lessons and quizzes make learning enjoyable.",
+        "The structured lectures here finally made things click — I built my first real project within three weeks of starting.",
       image:
-        "https://th.bing.com/th/id/OIP.GKAiW3oc2TWXVEeZAzrWOAHaJF?w=135&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7",
+        "/testimonials/sahil.png",
+    },
+     {
+      id: 5,
+      name: "Nishant Gupta",
+      position: "Student",
+      message:
+       "What I liked most was being able to track my progress lecture by lecture.The instructors actually explain the 'why' behind the code, not just the syntax.",
+      image:
+        "/testimonials/nishant.png",
     },
   ];
   return (
     <section className="testimonials">
-      <h2>What our students say</h2>
+      <h2>What our learners say</h2>
       <div className="testmonials-cards">
         {testimonialsData.map((e) => (
           <div className="testimonial-card" key={e.id}>

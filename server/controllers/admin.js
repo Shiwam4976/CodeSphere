@@ -51,12 +51,50 @@ export const addLectures = TryCatch(async (req, res) => {
   });
 });
 
+export const addNotes = TryCatch(async (req, res) => {
+  const lecture = await Lecture.findById(req.params.id);
+
+  if (!lecture)
+    return res.status(404).json({
+      message: "No Lecture with this id",
+    });
+
+  const file = req.file;
+
+  if (!file)
+    return res.status(400).json({
+      message: "Please upload a notes file",
+    });
+
+  // if notes already exist for this lecture, remove the old file first
+  if (lecture.notes) {
+    rm(lecture.notes, () => {
+      console.log("Old notes file deleted");
+    });
+  }
+
+  lecture.notes = file.path;
+
+  await lecture.save();
+
+  res.status(201).json({
+    message: "Notes Added",
+    lecture,
+  });
+});
+
 export const deleteLecture = TryCatch(async (req, res) => {
   const lecture = await Lecture.findById(req.params.id);
 
   rm(lecture.video, () => {
     console.log("Video deleted");
   });
+
+  if (lecture.notes) {
+    rm(lecture.notes, () => {
+      console.log("Notes deleted");
+    });
+  }
 
   await lecture.deleteOne();
 
@@ -74,6 +112,11 @@ export const deleteCourse = TryCatch(async (req, res) => {
     lectures.map(async (lecture) => {
       await unlinkAsync(lecture.video);
       console.log("video deleted");
+
+      if (lecture.notes) {
+        await unlinkAsync(lecture.notes).catch(() => {});
+        console.log("notes deleted");
+      }
     })
   );
 

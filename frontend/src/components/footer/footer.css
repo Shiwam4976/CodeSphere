@@ -1,36 +1,39 @@
 footer {
-  background-color: #8a5baf;
-  color: white;
-  padding: 20px 0;
+  background: #0f172a;
+  color: #cbd5e1;
+  padding: 36px 0 28px;
   text-align: center;
-  bottom: 0;
 
   .footer-content {
     max-width: 1200px;
     margin: 0 auto;
+    padding: 0 20px;
 
     p {
       margin: 0;
       font-size: 14px;
+      line-height: 1.7;
     }
 
     a {
       text-decoration: none;
-      color: inherit;
+      color: #a5b4fc;
+      font-weight: 600;
     }
 
     .social-links {
-      margin-top: 10px;
+      margin-top: 16px;
 
       a {
-        color: white;
-        font-size: 18px;
+        color: #cbd5e1;
+        font-size: 20px;
         margin: 0 10px;
-        text-decoration: none;
-        transition: color 0.3s ease;
+        display: inline-flex;
+        transition: color 0.3s ease, transform 0.2s ease;
 
         &:hover {
-          color: #f5f5f5;
+          color: var(--primary-light);
+          transform: translateY(-2px);
         }
       }
     }

@@ -1,22 +1,75 @@
 .about {
-  padding: 80px 0;
-  text-align: center;
-  min-height: 55vh;
+  min-height: 70vh;
 
-  .about-content {
-    max-width: 800px;
-    margin: 0 auto;
+  .about-hero {
+    background: var(--gradient);
+    padding: 80px 20px 60px;
+    text-align: center;
 
     h2 {
-      font-size: 32px;
-      color: #8a4baf;
-      margin-bottom: 20px;
+      font-size: 36px;
+      color: #fff;
+      margin-bottom: 18px;
     }
 
     p {
+      max-width: 700px;
+      margin: 0 auto;
       font-size: 16px;
-      color: #333;
-      line-height: 1.6;
+      line-height: 1.8;
+      color: rgba(255, 255, 255, 0.9);
+    }
+  }
+
+  .about-features {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 28px;
+    max-width: 1100px;
+    margin: -40px auto 0;
+    padding: 0 20px 80px;
+    position: relative;
+
+    .feature-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      padding: 32px 26px;
+      width: 300px;
+      text-align: left;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+      &:hover {
+        transform: translateY(-6px);
+        box-shadow: var(--shadow-lg);
+      }
+
+      .feature-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: var(--radius-sm);
+        background: var(--gradient);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        margin-bottom: 18px;
+      }
+
+      h3 {
+        font-size: 18px;
+        color: var(--text-dark);
+        margin-bottom: 10px;
+      }
+
+      p {
+        font-size: 14px;
+        color: var(--text-muted);
+        line-height: 1.7;
+      }
     }
   }
 }
