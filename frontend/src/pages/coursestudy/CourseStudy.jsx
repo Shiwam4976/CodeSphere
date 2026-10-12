@@ -6,16 +6,18 @@ import { server } from "../../main";
 
 const CourseStudy = ({ user }) => {
   const params = useParams();
-
   const { fetchCourse, course } = CourseData();
   const navigate = useNavigate();
 
-  if (user && user.role !== "admin" && !user.subscription.includes(params.id))
-    return navigate("/");
+  useEffect(() => {
+    if (user && user.role !== "admin" && !user.subscription.includes(params.id)) {
+      navigate("/");
+    }
+  }, [navigate, params.id, user]);
 
   useEffect(() => {
     fetchCourse(params.id);
-  }, []);
+  }, [fetchCourse, params.id]);
   return (
     <>
       {course && (

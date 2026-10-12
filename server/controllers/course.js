@@ -133,12 +133,26 @@ export const paymentVerification = TryCatch(async (req, res) => {
 });
 
 export const addProgress = TryCatch(async (req, res) => {
-  const progress = await Progress.findOne({
+  const { course, lectureId } = req.query;
+
+  if (!course || !lectureId) {
+    return res.status(400).json({
+      message: "Course and lecture are required",
+    });
+  }
+
+  let progress = await Progress.findOne({
     user: req.user._id,
-    course: req.query.course,
+    course,
   });
 
-  const { lectureId } = req.query;
+  if (!progress) {
+    progress = await Progress.create({
+      course,
+      completedLectures: [],
+      user: req.user._id,
+    });
+  }
 
   if (progress.completedLectures.includes(lectureId)) {
     return res.json({
@@ -156,23 +170,39 @@ export const addProgress = TryCatch(async (req, res) => {
 });
 
 export const getYourProgress = TryCatch(async (req, res) => {
-  const progress = await Progress.find({
+  const { course } = req.query;
+
+  if (!course) {
+    return res.status(400).json({
+      message: "Course is required",
+    });
+  }
+
+  const progress = await Progress.findOne({
     user: req.user._id,
-    course: req.query.course,
+    course,
   });
 
-  if (!progress) return res.status(404).json({ message: "null" });
+  const allLectures = await Lecture.countDocuments({ course });
 
-  const allLectures = (await Lecture.find({ course: req.query.course })).length;
+  if (!progress) {
+    return res.json({
+      courseProgressPercentage: 0,
+      completedLectures: 0,
+      allLectures,
+      progress: [],
+    });
+  }
 
-  const completedLectures = progress[0].completedLectures.length;
-
-  const courseProgressPercentage = (completedLectures * 100) / allLectures;
+  const completedLectures = progress.completedLectures.length;
+  const courseProgressPercentage = allLectures
+    ? (completedLectures * 100) / allLectures
+    : 0;
 
   res.json({
     courseProgressPercentage,
     completedLectures,
     allLectures,
-    progress,
+    progress: [progress],
   });
 });

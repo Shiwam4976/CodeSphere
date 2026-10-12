@@ -25,9 +25,16 @@ const Lecture = ({ user }) => {
   const [notesFile, setNotesFile] = useState("");
   const [notesFileName, setNotesFileName] = useState("");
   const [notesBtnLoading, setNotesBtnLoading] = useState(false);
+  const [completed, setCompleted] = useState("");
+  const [completedLec, setCompletedLec] = useState("");
+  const [lectLength, setLectLength] = useState("");
+  const [progress, setProgress] = useState([]);
 
-  if (user && user.role !== "admin" && !user.subscription.includes(params.id))
-    return navigate("/");
+  useEffect(() => {
+    if (user && user.role !== "admin" && !user.subscription.includes(params.id)) {
+      navigate("/");
+    }
+  }, [navigate, params.id, user]);
 
   async function fetchLectures() {
     try {
@@ -164,11 +171,6 @@ const Lecture = ({ user }) => {
       }
     }
   };
-
-  const [completed, setCompleted] = useState("");
-  const [completedLec, setCompletedLec] = useState("");
-  const [lectLength, setLectLength] = useState("");
-  const [progress, setProgress] = useState([]);
 
   async function fetchProgress() {
     try {
@@ -356,10 +358,9 @@ const Lecture = ({ user }) => {
 
               {lectures && lectures.length > 0 ? (
                 lectures.map((e, i) => (
-                  <>
+                  <React.Fragment key={e._id || i}>
                     <div
                       onClick={() => fetchLecture(e._id)}
-                      key={i}
                       className={`lecture-number ${
                         lecture._id === e._id && "active"
                       }`}
@@ -388,7 +389,7 @@ const Lecture = ({ user }) => {
                         Delete {e.title}
                       </button>
                     )}
-                  </>
+                  </React.Fragment>
                 ))
               ) : (
                 <p>No Lectures Yet!</p>

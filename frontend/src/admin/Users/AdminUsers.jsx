@@ -8,10 +8,13 @@ import toast from "react-hot-toast";
 
 const AdminUsers = ({ user }) => {
   const navigate = useNavigate();
-
-  if (user && user.mainrole !== "superadmin") return navigate("/");
-
   const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    if (user && user.mainrole !== "superadmin") {
+      navigate("/");
+    }
+  }, [navigate, user]);
 
   async function fetchUsers() {
     try {
@@ -70,7 +73,7 @@ const AdminUsers = ({ user }) => {
 
           {users &&
             users.map((e, i) => (
-              <tbody>
+              <tbody key={e._id || i}>
                 <tr>
                   <td>{i + 1}</td>
                   <td>{e.name}</td>

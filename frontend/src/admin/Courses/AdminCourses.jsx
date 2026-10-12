@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../Utils/Layout";
 import { useNavigate } from "react-router-dom";
 import { CourseData } from "../../context/CourseContext";
@@ -18,9 +18,6 @@ const categories = [
 
 const AdminCourses = ({ user }) => {
   const navigate = useNavigate();
-
-  if (user && user.role !== "admin") return navigate("/");
-
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
@@ -30,6 +27,12 @@ const AdminCourses = ({ user }) => {
   const [image, setImage] = useState("");
   const [imagePrev, setImagePrev] = useState("");
   const [btnLoading, setBtnLoading] = useState(false);
+
+  useEffect(() => {
+    if (user && user.role !== "admin") {
+      navigate("/");
+    }
+  }, [navigate, user]);
 
   const changeImageHandler = (e) => {
     const file = e.target.files[0];
